@@ -203,7 +203,7 @@ public class PlaceOrderFormController {
 
     private void loadAllCustomerIds() {
         try {
-            ArrayList<CustomerDTO> idList = customerDAO.loadAllCustomers();
+            ArrayList<CustomerDTO> idList = customerDAO.loadAll();
             for (CustomerDTO customerDTO : idList) {
                 cmbCustomerId.getItems().add(customerDTO.getId());
             }
@@ -220,7 +220,7 @@ public class PlaceOrderFormController {
     private void loadAllItemCodes() {
         try {
             /*Get all items*/
-            ArrayList<ItemDTO> itemDTOS = itemDAO.loadAllItem();
+            ArrayList<ItemDTO> itemDTOS = itemDAO.loadAll();
             for (ItemDTO itemDTO : itemDTOS) {
                 cmbItemCode.getItems().add(itemDTO.getCode());
             }
