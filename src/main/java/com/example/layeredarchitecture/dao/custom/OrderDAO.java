@@ -1,6 +1,4 @@
-package com.example.layeredarchitecture.dao;
-
-import com.example.layeredarchitecture.db.DBConnection;
+package com.example.layeredarchitecture.dao.custom;
 
 import java.sql.*;
 import java.time.LocalDate;

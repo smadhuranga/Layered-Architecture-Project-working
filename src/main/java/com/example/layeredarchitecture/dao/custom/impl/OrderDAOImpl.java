@@ -1,7 +1,7 @@
-package com.example.layeredarchitecture.dao;
+package com.example.layeredarchitecture.dao.custom.impl;
 
-import com.example.layeredarchitecture.db.DBConnection;
-import com.example.layeredarchitecture.model.OrderDetailDTO;
+import com.example.layeredarchitecture.dao.SqlUtill;
+import com.example.layeredarchitecture.dao.custom.OrderDAO;
 
 import java.sql.*;
 import java.time.LocalDate;
