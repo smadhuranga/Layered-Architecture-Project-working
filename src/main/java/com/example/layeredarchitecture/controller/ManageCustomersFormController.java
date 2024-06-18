@@ -71,7 +71,7 @@ public class ManageCustomersFormController {
         tblCustomers.getItems().clear();
         /*Get all customers*/
         try {
-            ArrayList<CustomerDTO> customerDTOS = customerDAO.loadAllCustomers();
+            ArrayList<CustomerDTO> customerDTOS = customerDAO.loadAll();
 
             for (CustomerDTO customerDTO : customerDTOS) {
                 tblCustomers.getItems().add(new CustomerTM(customerDTO.getId(),customerDTO.getName(),customerDTO.getAddress()));
@@ -143,11 +143,12 @@ public class ManageCustomersFormController {
         if (btnSave.getText().equalsIgnoreCase("save")) {
             /*Save Customer*/
             try {
-                if (customerDAO.existCustomer(id)) {
+                if (customerDAO.exist(id)) {
                     new Alert(Alert.AlertType.ERROR, id + " already exists").show();
                 }
+                CustomerDTO customerDTO = new CustomerDTO(id, name, address);
 
-                customerDAO.saveCustomer(id, name, address);
+                customerDAO.save(customerDTO);
 
 
                 tblCustomers.getItems().add(new CustomerTM(id, name, address));
@@ -161,10 +162,11 @@ public class ManageCustomersFormController {
         } else {
             /*Update customer*/
             try {
-                if (!customerDAO.existCustomer(id)) {
+                if (!customerDAO.exist(id)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
                 }
-                 customerDAO.updateCustomer(id, name, address);
+                CustomerDTO x= new CustomerDTO(id, name, address);
+                 customerDAO.update(x);
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + id + e.getMessage()).show();
             } catch (ClassNotFoundException e) {
@@ -188,7 +190,7 @@ public class ManageCustomersFormController {
         String id = tblCustomers.getSelectionModel().getSelectedItem().getId();
 
         try {
-            if (!customerDAO.existCustomer(id)) {
+            if (!customerDAO.exist(id)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
             }
             customerDAO.delete(id);
@@ -206,7 +208,7 @@ public class ManageCustomersFormController {
 
     private String generateNewId() {
         try {
-            return customerDAO.genarateNewCustomerId();
+            return customerDAO.genarateNew();
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();

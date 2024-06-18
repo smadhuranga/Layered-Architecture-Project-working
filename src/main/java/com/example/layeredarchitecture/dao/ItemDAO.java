@@ -7,13 +7,6 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 
-public interface ItemDAO {
-    public ArrayList<ItemDTO> loadAllItem() throws SQLException, ClassNotFoundException ;
+public interface ItemDAO extends CrudDAO <ItemDTO> {
 
-    public void deleteItem(String code) throws SQLException, ClassNotFoundException ;
-    public void saveItem(String code, String description, BigDecimal unitPrice, int qtyOnHand) throws SQLException, ClassNotFoundException ;
-    public boolean updateItem(String code, String description, BigDecimal unitPrice, int qtyOnHand) throws SQLException, ClassNotFoundException ;
-    public boolean existItem(String code) throws SQLException, ClassNotFoundException ;
-    public String getItemId() throws SQLException, ClassNotFoundException ;
-    public ItemDTO getItem(String newItemCode) throws SQLException, ClassNotFoundException;
 }

@@ -74,7 +74,7 @@ public class ManageItemsFormController {
         try {
             /*Get all items*/
 
-            ArrayList<ItemDTO> itemDTOS =itemDAO.loadAllItem();
+            ArrayList<ItemDTO> itemDTOS =itemDAO.loadAll();
             for (ItemDTO itemDTO : itemDTOS) {
                 tblItems.getItems().add(new ItemTM(
                         itemDTO.getCode(),
@@ -137,10 +137,10 @@ public class ManageItemsFormController {
         /*Delete Item*/
         String code = tblItems.getSelectionModel().getSelectedItem().getCode();
         try {
-            if (!itemDAO.existItem(code)) {
+            if (!itemDAO.exist(code)) {
                 new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
             }
-            itemDAO.deleteItem(code);
+            itemDAO.delete(code);
 
 
 
@@ -178,11 +178,12 @@ public class ManageItemsFormController {
 
         if (btnSave.getText().equalsIgnoreCase("save")) {
             try {
-                if (itemDAO.existItem(code)) {
+                if (itemDAO.exist(code)) {
                     new Alert(Alert.AlertType.ERROR, code + " already exists").show();
                 }
                 //Save Item
-               itemDAO.saveItem(code, description, unitPrice, qtyOnHand);
+                ItemDTO x = new ItemDTO(code, description, unitPrice, qtyOnHand);
+               itemDAO.save(x);
                 tblItems.getItems().add(new ItemTM(code, description, unitPrice, qtyOnHand));
 
             } catch (SQLException e) {
@@ -193,11 +194,12 @@ public class ManageItemsFormController {
         } else {
             try {
 
-                if (!itemDAO.existItem(code)) {
+                if (!itemDAO.exist(code)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such item associated with the id " + code).show();
                 }
                 /*Update Item*/
-                itemDAO.updateItem(code, description, unitPrice, qtyOnHand);
+                ItemDTO x= new ItemDTO(code, description, unitPrice, qtyOnHand);
+                itemDAO.update(x);
 
                 ItemTM selectedItem = tblItems.getSelectionModel().getSelectedItem();
                 selectedItem.setDescription(description);
@@ -217,7 +219,7 @@ public class ManageItemsFormController {
 
     private String generateNewId() {
         try {
-           return itemDAO.getItemId();
+           return itemDAO.genarateNew();
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
