@@ -23,6 +23,9 @@ public class OrderDTO  {
         this.orderTotal = orderTotal;
     }
 
+    public OrderDTO(String orderId, LocalDate orderDate, String customerId) {
+    }
+
     public String getOrderId() {
         return orderId;
     }
