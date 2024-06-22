@@ -23,7 +23,7 @@ public class DAOFactory {
     }
     //Enum
 
-    public SuperDAO getDAO(DAOType daoType) {
+    public SuperDAO getDAO(DAOType daoType) {           // we must create superdao becouse we want access most super type in this
         switch (daoType) {
             case CUSTOMER:
                 return new CustomerDAOImpl();
