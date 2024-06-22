@@ -3,6 +3,7 @@ package com.example.layeredarchitecture.bo.custom.impl;
 
 import com.example.layeredarchitecture.bo.custom.PurchaseOrderBO;
 
+import com.example.layeredarchitecture.dao.DAOFactory;
 import com.example.layeredarchitecture.dao.custom.CustomerDAO;
 import com.example.layeredarchitecture.dao.custom.ItemDAO;
 import com.example.layeredarchitecture.dao.custom.OrderDAO;
@@ -21,50 +22,54 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PurchaseOrderBOImpl implements PurchaseOrderBO {
+    CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOType.CUSTOMER);
+    ItemDAO itemDAO = (ItemDAO) DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOType.ITEM);
+    OrderDAO orderDAO = (OrderDAO) DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOType.ORDER);
+    OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOType.ORDER_DETAIL);
+
 
     @Override
     public CustomerDTO searchCustomer(String id) throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAOImpl();
         return customerDAO.search(id);
     }
 
 
     @Override
     public ItemDTO searchItem(String code) throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.search(code);
     }
 
     @Override
     public boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO = new ItemDAOImpl();
+
         return itemDAO.exist(code);
     }
 
     @Override
     public boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAOImpl();
+
         return customerDAO.exist(id);
     }
 
     @Override
     public String generateOrderID() throws SQLException, ClassNotFoundException {
-        OrderDAO orderDAO = new OrderDAOImpl();
+
         return orderDAO.generateNewID();
     }
 
     @Override
     public ArrayList<CustomerDTO> getAllCustomers() throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAOImpl();
+
        return customerDAO.getAll();
     }
 
     @Override
     public ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO = new ItemDAOImpl();
+
         return itemDAO.getAll();
     }
 
@@ -76,7 +81,7 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBO {
         try {
             connection = DBConnection.getDbConnection().getConnection();
             //Check order id already exist or not
-            OrderDAO orderDAO = new OrderDAOImpl();
+
             boolean b1 = orderDAO.exist(orderId);
             /*if order id already exist*/
             if (b1) {
@@ -94,7 +99,7 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBO {
             }
 
             // add data to the Order Details table
-            OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
+
             for (OrderDetailDTO detail : orderDetails) {
                 boolean b3 = orderDetailsDAO.add(detail);
                 if (!b3) {
