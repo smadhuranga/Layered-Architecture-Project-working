@@ -1,5 +1,5 @@
 package com.example.layeredarchitecture.dao.custom;
 
 public interface QueryDAO {
-    public void create;
+    void searchOrder();
 }
